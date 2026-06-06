@@ -1,5 +1,6 @@
 "use client"
 
+import { type RefObject } from "react"
 import { Plus, X } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -14,6 +15,7 @@ import { cn } from "@/lib/utils"
 interface ProjectSidebarProps {
   isOpen: boolean
   onClose?: () => void
+  navToggleRef?: RefObject<HTMLButtonElement>
 }
 
 function EmptyProjectState({ label }: { label: string }) {
@@ -28,11 +30,16 @@ function EmptyProjectState({ label }: { label: string }) {
   )
 }
 
-export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
+export function ProjectSidebar({ isOpen, onClose, navToggleRef }: ProjectSidebarProps) {
+  const handleClose = () => {
+    onClose?.()
+    navToggleRef?.current?.focus()
+  }
+
   return (
     <aside
       aria-hidden={!isOpen}
-      inert={!isOpen ? "" : undefined}
+      inert={isOpen ? undefined : true}
       className={cn(
         "fixed left-4 top-[4.5rem] z-30 flex h-[calc(100vh-5rem)] w-[20rem] flex-col rounded-2xl border border-surface-border bg-surface/90 p-4 shadow-2xl backdrop-blur-xl transition-transform duration-200 ease-out",
         isOpen ? "translate-x-0" : "-translate-x-[calc(100%+2rem)]"
@@ -44,7 +51,7 @@ export function ProjectSidebar({ isOpen, onClose }: ProjectSidebarProps) {
         </h2>
         <Button
           aria-label="Close project sidebar"
-          onClick={onClose}
+          onClick={handleClose}
           size="icon-sm"
           type="button"
           variant="ghost"
