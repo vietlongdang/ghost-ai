@@ -16,10 +16,10 @@ Create a hook in `hooks/` that manages dialog state and project mutations.
 
 - manage create dialog state
 - manage project name input
-- generate a short unique suffix
-- slugify the name to create the room ID
 - call `POST /api/projects`
-- navigate to the new workspace
+- receive the canonical project ID from the response
+- navigate to the new workspace using the project ID
+- use the same project ID as the Liveblocks room ID
 
 The project ID and Liveblocks room ID should stay aligned.
 

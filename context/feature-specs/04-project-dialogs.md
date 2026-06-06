@@ -6,7 +6,7 @@ Build the `/editor` home screen and add project dialogs/sidebar actions. No API 
 
 ## Editor Home
 
-Reuse the existing editor layout. Do not modify the navbar or sidebar behavior.
+Reuse the existing editor layout. Preserve existing navbar and sidebar toggle mechanics (open/close triggers and persisted state), but implement new sidebar actions and mobile-specific behavior: add the specified action buttons, a scrim/backdrop that closes the sidebar on mobile, and a mobile back/close control.
 
 In the center of the page, add:
 

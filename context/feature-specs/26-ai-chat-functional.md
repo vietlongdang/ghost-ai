@@ -8,7 +8,8 @@ in real time, and reflect AI-driven canvas updates through Liveblocks.
 - On submit:
   - push the user message to the `ai-chat` feed
   - call `POST /api/ai/design` with `{ prompt, roomId }`
-  - read `{ runId, publicToken }` from the response
+  - read `{ runId }` from the response
+  - call `POST /api/ai/design/token` with the runId or required payload to obtain the publicToken
 - store `runId` and `publicToken` in local state
 
 2. Run status tracking
@@ -34,7 +35,7 @@ in real time, and reflect AI-driven canvas updates through Liveblocks.
 
 ### UI Details
 
-- Use existing design tokens from `global.css` (do not introduce new colors)
+- Use existing design tokens from `globals.css` (do not introduce new colors)
 - Follow `ui-context.md` for layout and visual consistency
 
 Chat bubbles

@@ -36,10 +36,10 @@ Add a small starter template library so users can start a canvas from a pre-buil
 
 4. Wire starter templates into the editor.
    - add a navbar button to open the starter templates modal
-   - when a template is selected, clear all existing nodes and edges first in the canvas
-   - add the selected template nodes and edges after the canvas is cleared
-   - make sure the starter template replaces the current canvas instead of being added on top of existing work
-   - fit the view after the template is loaded
+   - when a template is selected, replace the canvas in a single atomic operation by implementing a method that replaces nodes and edges together in one mutation/transaction (e.g., a replaceCanvas or replaceNodesAndEdges operation on the collaborative state store)
+   - invoke fitView only after that transaction completes
+   - ensure the starter template fully replaces the current canvas without emitting an intermediate empty state or separate undo entries
+   - preserve collaborative syncing metadata within the same transaction
    - keep this inside the existing collaborative canvas state
 
 ## Scope Limits
