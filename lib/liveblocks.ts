@@ -1,50 +1,35 @@
-import { Liveblocks } from "@liveblocks/node"
+import { Liveblocks } from "@liveblocks/node";
 
 const CURSOR_COLORS = [
-  "#52A8FF",
-  "#BF7AF0",
-  "#FF990A",
-  "#FF6166",
-  "#F75F8F",
-  "#62C073",
-  "#0AC7B4",
-  "#EDEDED",
-] as const
-
-const globalForLiveblocks = globalThis as typeof globalThis & {
-  liveblocks?: Liveblocks
-}
-
-function createLiveblocks(): Liveblocks {
-  const secret = process.env.LIVEBLOCKS_SECRET_KEY
-
-  if (!secret) {
-    throw new Error("LIVEBLOCKS_SECRET_KEY is not set")
-  }
-
-  return new Liveblocks({ secret })
-}
-
-export function getLiveblocks(): Liveblocks {
-  if (globalForLiveblocks.liveblocks) {
-    return globalForLiveblocks.liveblocks
-  }
-
-  const client = createLiveblocks()
-
-  if (process.env.NODE_ENV !== "production") {
-    globalForLiveblocks.liveblocks = client
-  }
-
-  return client
-}
+  "#FF6B6B",
+  "#4ECDC4",
+  "#45B7D1",
+  "#96CEB4",
+  "#FFEAA7",
+  "#DDA0DD",
+  "#98D8C8",
+  "#F7DC6F",
+  "#BB8FCE",
+  "#85C1E9",
+];
 
 export function getUserColor(userId: string): string {
-  let hash = 0
-
-  for (let index = 0; index < userId.length; index += 1) {
-    hash = (hash * 31 + userId.charCodeAt(index)) >>> 0
+  let hash = 0;
+  for (let i = 0; i < userId.length; i++) {
+    hash = (hash + userId.charCodeAt(i)) % CURSOR_COLORS.length;
   }
+  return CURSOR_COLORS[hash];
+}
 
-  return CURSOR_COLORS[hash % CURSOR_COLORS.length]
+const globalForLiveblocks = globalThis as unknown as {
+  liveblocks: Liveblocks | undefined;
+};
+
+export function getLiveblocks(): Liveblocks {
+  if (!globalForLiveblocks.liveblocks) {
+    globalForLiveblocks.liveblocks = new Liveblocks({
+      secret: process.env.LIVEBLOCKS_SECRET_KEY!,
+    });
+  }
+  return globalForLiveblocks.liveblocks;
 }
