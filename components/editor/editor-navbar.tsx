@@ -1,6 +1,12 @@
 "use client"
 
 import { type RefObject } from "react"
+import {
+  Show,
+  SignInButton,
+  SignUpButton,
+  UserButton,
+} from "@clerk/nextjs"
 import { PanelLeftClose, PanelLeftOpen } from "lucide-react"
 
 import { Button } from "@/components/ui/button"
@@ -8,7 +14,7 @@ import { Button } from "@/components/ui/button"
 interface EditorNavbarProps {
   isSidebarOpen: boolean
   onToggleSidebar: () => void
-  navToggleRef?: RefObject<HTMLButtonElement>
+  navToggleRef?: RefObject<HTMLButtonElement | null>
 }
 
 export function EditorNavbar({
@@ -39,7 +45,23 @@ export function EditorNavbar({
         </span>
       </div>
 
-      <div aria-hidden="true" />
+      <div className="flex items-center justify-end gap-2">
+        <Show when="signed-out">
+          <SignInButton>
+            <Button size="sm" type="button" variant="ghost">
+              Sign in
+            </Button>
+          </SignInButton>
+          <SignUpButton>
+            <Button size="sm" type="button">
+              Sign up
+            </Button>
+          </SignUpButton>
+        </Show>
+        <Show when="signed-in">
+          <UserButton />
+        </Show>
+      </div>
     </header>
   )
 }
